@@ -1,0 +1,50 @@
+---
+title: "Shiny app pitch"
+author: "Vasantha"
+date: "22/05/2020"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Summary
+- Shiny application is developed for air quality data. 
+- Histogram is plotted varible bins that can be chosen by the user using the slider bar. 
+- Ozone is plotted against the varible chosen by the user
+- Linear regression can be plotted if needed. 
+- Finally, ozone levels are predicted for temperature chosen using the slider.
+- Main panel is divided as tabs for demonstrating each of the plots.
+
+## Summary of air quality data
+
+```{r}
+summary(airquality)
+```
+
+## Ozone data
+
+Ozone values are plotted as histogram with number of bins decided by the user by sliding the slider bar.   
+
+```{r, echo = T, message=F, warning=F}
+hist(airquality$Ozone, bins = 10)
+```
+
+## Plotting ozone vs other environmental parameters
+Ozone levels are plotted with respected to other environmental parameters such as temeperaure, solar radiation and wind. Also, a linear regression model is fitted to the model if required. 
+
+```{r, echo = F, message=F, warning=F}
+airquality <- na.omit(airquality)
+plot(airquality$Wind, airquality$Ozone, xlab = "Wind", ylab = "Ozone")
+abline(lm(airquality[,1]~airquality[,3]), col = 'red')
+```
+
+## Predict ozone data for differnt temperaure levels
+Ozone levels are predicted for the chosen temperaure levels. Assuming the chosen temperature is 100 F, ozone is computed from the fitted model
+```{r, echo = F, message=F, warning=F}
+model1 <- lm(airquality[,1] ~ airquality[,4])
+model1$coefficients[1] + 80 * model1$coefficients[2]
+```
+
+## Thank you
